@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <script src="C:\Users\mshah64\Desktop\to-do\js\index.js"></script>
+
+    <style>
+        .flex-container {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            background-color:darkorchid;
+        }
+        .edtBtn, .delBtn {
+            background-position: center; 
+            background-repeat: no-repeat; 
+            background-size: cover;
+        }
+    </style>
+
+    <head>
+        <title>To-Do List</title>
+    </head>
+
+    <body>
+        <h1>To-Do List</h1>
+
+        <form>
+            <br>
+            <button type="submit" onclick="handleTodoAdd()" id="addTaskBtn">
+                Add task
+            </button>
+            <br><br>
+        </form>
+
+        <div class="flex-container" id="flexBox"></div>
+
+        <br>
+        <label>
+            Tasks completed: <span id="tasksCompNum">0</span>
+        </label>
+        <br><br>
+
+        <div id="compTasks"></div>
+    </body>
+</html>
