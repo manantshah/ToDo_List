@@ -39,11 +39,12 @@ def index():
             delete_query = db.session.query(Todo).filter(Todo.id == data[0]['id'])
             delete_query.delete()
         elif data[1] == "complete":
-            task_completed = Todo.query.get(data[0]['id'])
+            task_completed = db.session.get(Todo, data[0]['id'])
             task_completed.completed = 'Y'
         elif data[1] == "incomplete":
-            task_incomplete = Todo.query.get(data[0]['id'])
+            task_incomplete = db.session.get(Todo, data[0]['id'])
             task_incomplete.completed = 'N'
+            task_incomplete.last_modified = datetime.strptime(data[0]['lastModified'], "%a, %d %b %Y %H:%M:%S %Z")
         db.session.commit()
         tasks = Todo.query.all()
         for task in tasks:
@@ -52,7 +53,7 @@ def index():
     
     elif request.method == 'PUT':
         data = request.json
-        task_edited = Todo.query.get(data[0]['id'])
+        task_edited = db.session.get(Todo, data[0]['id'])
         task_edited.task_content = data[0]['taskName']
         task_edited.last_modified = datetime.strptime(data[0]['lastModified'], "%a, %d %b %Y %H:%M:%S %Z")
         db.session.commit()
@@ -63,7 +64,8 @@ def index():
     
     else:
         tasksLastSaved = []
-        tasks = Todo.query.all()
+        tasks = Todo.query.order_by(Todo.last_modified).all()
+        print(tasks)
         maxId = 0
         for task in tasks:
             maxId = max(maxId, task.id)

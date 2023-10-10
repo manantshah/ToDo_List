@@ -16,6 +16,7 @@ window.onload = function getData() {
 
 function processBackendData(res) {
     idIncrementer = res[res.length - 1]["maxId"] + 1;
+    taskId = idIncrementer;
     for (let t = 0; t < res.length - 1; t++) {
         if (res[t]["completed"] === 'N') {
             handleTodoAdd(undefined, undefined, undefined, res[t]);
@@ -27,6 +28,7 @@ function processBackendData(res) {
 }
 
 function handleTodoAdd(txtVal, divId, incId, taskDB) {
+    console.log("id inc: ", idIncrementer);
 
     let chkbox = document.createElement("input");
     let txtbox = document.createElement("input");
@@ -63,9 +65,9 @@ function handleTodoAdd(txtVal, divId, incId, taskDB) {
         for (let i in arrOfCompletedTasks) {
             if (arrOfCompletedTasks[i].taskName === txtVal) {
                 var lastModNew = (new Date()).toUTCString();
-                sendData(arrOfCompletedTasks[i], "incomplete", 'POST');
                 arrOfTaskObjs.push(arrOfCompletedTasks[i]);
                 arrOfTaskObjs[arrOfTaskObjs.length - 1].lastModified = lastModNew;
+                sendData(arrOfCompletedTasks[i], "incomplete", 'POST');
                 arrOfCompletedTasks.splice(i, 1);
                 break;
             }
